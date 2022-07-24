@@ -23,7 +23,7 @@ tplJoomla_templateHelper::setMetadata();
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="head" />
+    <jdoc:include type="head"/>
 </head>
 <body class="<?php echo tplJoomla_templateHelper::setBodySuffix(); ?>">
 <?php echo tplJoomla_templateHelper::setAnalytics(0, 'your-analytics-id'); ?>
@@ -31,32 +31,32 @@ tplJoomla_templateHelper::setMetadata();
 <a href="#main" class="sr-only sr-only-focusable"><?php echo Text::_('TPL_JOOMLA_TEMPLATE_SKIP_LINK_LABEL'); ?></a>
 
 <a href="<?php echo $this->baseurl; ?>/">
-    <?php if ($this->params->get('sitedescription')) : ?>
-        <?php echo '<div class="site-description">' . htmlspecialchars($this->params->get('sitedescription'), ENT_COMPAT, 'UTF-8') . '</div>'; ?>
-    <?php endif; ?>
+	<?php if ($this->params->get('sitedescription')) : ?>
+		<?php echo '<div class="site-description">' . htmlspecialchars($this->params->get('sitedescription'), ENT_COMPAT, 'UTF-8') . '</div>'; ?>
+	<?php endif; ?>
 </a>
 
-<nav role="navigation" >
-	<jdoc:include type="modules" name="position-0" style="none" />
+<nav role="navigation">
+    <jdoc:include type="modules" name="position-0" style="none"/>
 </nav>
 
 <main id="main">
-	<jdoc:include type="message" />
-	<jdoc:include type="component" />
+    <jdoc:include type="message"/>
+    <jdoc:include type="component"/>
 </main>
 
 <aside>
-    <?php if ($this->countModules('position-1')) : ?>
-		<jdoc:include type="modules" name="position-1" style="none" />
+	<?php if ($this->countModules('position-1')) : ?>
+        <jdoc:include type="modules" name="position-1" style="none"/>
 	<?php endif; ?>
 </aside>
 
 <footer>
-	<jdoc:include type="modules" name="footer" style="none" />
-	<p>
-		&copy; <?php echo date('Y'); ?> <?php echo tplJoomla_templateHelper::getSitename(); ?>
-	</p>
+    <jdoc:include type="modules" name="footer" style="none"/>
+    <p>
+        &copy; <?php echo date('Y'); ?> <?php echo tplJoomla_templateHelper::getSitename(); ?>
+    </p>
 </footer>
-<jdoc:include type="modules" name="debug" style="none" />
+<jdoc:include type="modules" name="debug" style="none"/>
 </body>
 </html>

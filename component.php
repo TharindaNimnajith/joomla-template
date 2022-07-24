@@ -20,11 +20,11 @@ tplJoomla_templateHelper::setMetadata();
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-	<jdoc:include type="head" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <jdoc:include type="head"/>
 </head>
 <body class="contentpane modal">
-	<jdoc:include type="message" />
-	<jdoc:include type="component" />
+<jdoc:include type="message"/>
+<jdoc:include type="component"/>
 </body>
 </html>

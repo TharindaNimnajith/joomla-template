@@ -21,21 +21,30 @@ use Joomla\CMS\Uri\Uri;
  * @package    Joomla.Site
  * @subpackage Template.joomla_template
  *
- * @since   1.0.0
+ * @since      1.0.0
  */
 class TplJoomla_templateHelper
 {
 	/**
-	 * Method to get Template
+	 * Generate a list of useful CSS classes for the body
 	 *
 	 * @access public
 	 *
-	 * @return mixed
-	 * @throws Exception
+	 * @return boolean
+	 * @since  1.0
 	 */
-	static public function template()
+	static public function setBodySuffix()
 	{
-		return Factory::getApplication()->getTemplate();
+		$classes   = array();
+		$classes[] = 'option-' . self::getPageOption();
+		$classes[] = 'view-' . self::getPageView();
+		$classes[] = self::getPageLayout() ? 'layout-' . self::getPageLayout() : 'no-layout';
+		$classes[] = self::getPageTask() ? 'task-' . self::getPageTask() : 'no-task';
+		$classes[] = 'itemid-' . self::getItemId();
+		$classes[] = self::getPageClass();
+		$classes[] = self::isHome() ? 'path-home' : 'path-' . implode('-', self::getPath('array'));
+
+		return implode(' ', $classes);
 	}
 
 	/**
@@ -44,7 +53,7 @@ class TplJoomla_templateHelper
 	 * @access public
 	 *
 	 * @return mixed
-	 * @since 1.0
+	 * @since  1.0
 	 */
 	static public function getPageOption()
 	{
@@ -58,7 +67,7 @@ class TplJoomla_templateHelper
 	 * @access public
 	 *
 	 * @return mixed
-	 * @since 1.0
+	 * @since  1.0
 	 */
 	static public function getPageView()
 	{
@@ -71,7 +80,7 @@ class TplJoomla_templateHelper
 	 * @access public
 	 *
 	 * @return mixed
-	 * @since version
+	 * @since  version
 	 */
 	static public function getPageLayout()
 	{
@@ -84,7 +93,7 @@ class TplJoomla_templateHelper
 	 * @access public
 	 *
 	 * @return mixed
-	 * @since 1.0
+	 * @since  1.0
 	 */
 	static public function getPageTask()
 	{
@@ -97,7 +106,7 @@ class TplJoomla_templateHelper
 	 * @access public
 	 *
 	 * @return integer
-	 * @since 1.0
+	 * @since  1.0
 	 */
 	static public function getItemId()
 	{
@@ -140,7 +149,7 @@ class TplJoomla_templateHelper
 	 *
 	 * @access public
 	 *
-	 * @param   string $output Output type
+	 * @param   string  $output  Output type
 	 *
 	 * @return mixed
 	 * @since  1.0
@@ -161,25 +170,21 @@ class TplJoomla_templateHelper
 	}
 
 	/**
-	 * Generate a list of useful CSS classes for the body
+	 * Method to set some Meta data
 	 *
 	 * @access public
 	 *
-	 * @return boolean
+	 * @return void
 	 * @since  1.0
 	 */
-	static public function setBodySuffix()
+	static public function setMetadata()
 	{
-		$classes   = array();
-		$classes[] = 'option-' . self::getPageOption();
-		$classes[] = 'view-' . self::getPageView();
-		$classes[] = self::getPageLayout() ? 'layout-' . self::getPageLayout() : 'no-layout';
-		$classes[] = self::getPageTask() ? 'task-' . self::getPageTask() : 'no-task';
-		$classes[] = 'itemid-' . self::getItemId();
-		$classes[] = self::getPageClass();
-		$classes[] = self::isHome() ? 'path-home' : 'path-' . implode('-', self::getPath('array'));
+		$doc = Factory::getDocument();
 
-		return implode(' ', $classes);
+		$doc->setHtml5(true);
+		$doc->setMetaData('X-UA-Compatible', 'IE=edge', true);
+		$doc->setMetaData('viewport', 'width=device-width, initial-scale=1.0');
+		self::setGenerator(self::getSitename());
 	}
 
 	/**
@@ -187,7 +192,7 @@ class TplJoomla_templateHelper
 	 *
 	 * @access public
 	 *
-	 * @param   string $generator Generator
+	 * @param   string  $generator  Generator
 	 *
 	 * @return void
 	 *
@@ -212,30 +217,12 @@ class TplJoomla_templateHelper
 	}
 
 	/**
-	 * Method to set some Meta data
-	 *
-	 * @access public
-	 *
-	 * @return void
-	 * @since  1.0
-	 */
-	static public function setMetadata()
-	{
-		$doc    = Factory::getDocument();
-
-		$doc->setHtml5(true);
-		$doc->setMetaData('X-UA-Compatible', 'IE=edge', true);
-		$doc->setMetaData('viewport', 'width=device-width, initial-scale=1.0');
-		self::setGenerator(self::getSitename());
-	}
-
-	/**
 	 * Method to load CSS
 	 *
 	 * @access public
 	 *
-	 * @throws Exception
 	 * @return void
+	 * @throws Exception
 	 * @since  1.0
 	 */
 	static public function loadCss()
@@ -249,6 +236,19 @@ class TplJoomla_templateHelper
 		{
 			HTMLHelper::_('stylesheet', 'user.css', ['version' => 'auto', 'relative' => true]);
 		}
+	}
+
+	/**
+	 * Method to get Template
+	 *
+	 * @access public
+	 *
+	 * @return mixed
+	 * @throws Exception
+	 */
+	static public function template()
+	{
+		return Factory::getApplication()->getTemplate();
 	}
 
 	/**
@@ -267,8 +267,8 @@ class TplJoomla_templateHelper
 	/**
 	 * Method to set Analytics
 	 *
-	 * @param   int $analyticsType  Number to indicate which type of analytics to use
-	 * @param   int $analyticsId    Google Analytics ID
+	 * @param   int  $analyticsType  Number to indicate which type of analytics to use
+	 * @param   int  $analyticsId    Google Analytics ID
 	 *
 	 * @return string
 	 * @since  1.0
